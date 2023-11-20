@@ -1,0 +1,55 @@
+plugins {
+    id 'java'
+    id 'org.graalvm.buildtools.native' version '0.9.28'
+}
+
+group = 'com.lingh'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.apache.shardingsphere:shardingsphere-jdbc-core:5.4.2-SNAPSHOT'
+    testImplementation 'com.h2database:h2:2.2.224'
+    testImplementation 'com.zaxxer:HikariCP:4.0.3'
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+    testCompileOnly 'org.projectlombok:lombok:1.18.30'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+graalvmNative {
+    binaries {
+        main {
+            buildArgs.add('--report-unsupported-elements-at-runtime')
+        }
+        test {
+            buildArgs.add('--report-unsupported-elements-at-runtime')
+        }
+    }
+    agent {
+        defaultMode = "conditional"
+        modes {
+            conditional {
+                userCodeFilterPath = "user-code-filter.json"
+                extraFilterPath = "extra-filter.json"
+            }
+        }
+        metadataCopy {
+            mergeWithExisting = false
+            inputTaskNames.add("test")
+            outputDirectories.add("src/test/resources/META-INF/native-image/project-test-metadata/")
+        }
+    }
+    metadataRepository {
+        enabled = true
+    }
+}

@@ -1,0 +1,9 @@
+{
+  "resources":{
+  "includes":[{
+    "condition":{"typeReachable":"com.lingh.features.ShardingTest"},
+    "pattern":"\\Qyaml/sharding.yaml\\E"
+  }
+  ]},
+  "bundles":[]
+}
