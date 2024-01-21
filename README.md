@@ -1,4 +1,5 @@
 # shardingsphere-graalvm-v2311-native-test
+# Fixed by https://github.com/apache/shardingsphere/pull/29764 .
 
 - For https://github.com/oracle/graal/issues/7500.
 - Also for https://github.com/apache/shardingsphere/pull/28609 and https://github.com/apache/shardingsphere/issues/29052 .
